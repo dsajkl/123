@@ -139,9 +139,9 @@ PLATFORM_GOOGLE_PLUS_URL = ENV_TOKENS.get('PLATFORM_GOOGLE_PLUS_URL', PLATFORM_G
 CC_MERCHANT_NAME = ENV_TOKENS.get('CC_MERCHANT_NAME', PLATFORM_NAME)
 EMAIL_BACKEND = ENV_TOKENS.get('EMAIL_BACKEND', EMAIL_BACKEND)
 EMAIL_FILE_PATH = ENV_TOKENS.get('EMAIL_FILE_PATH', None)
-EMAIL_HOST = ENV_TOKENS.get('EMAIL_HOST', 'localhost')  # django default is localhost
+EMAIL_HOST = ENV_TOKENS.get('EMAIL_HOST', 'smtp.gmail.com')  # django default is localhost
 EMAIL_PORT = ENV_TOKENS.get('EMAIL_PORT', 25)  # django default is 25
-EMAIL_USE_TLS = ENV_TOKENS.get('EMAIL_USE_TLS', False)  # django default is False
+EMAIL_USE_TLS = ENV_TOKENS.get('EMAIL_USE_TLS', True)  # django default is False
 SITE_NAME = ENV_TOKENS['SITE_NAME']
 HTTPS = ENV_TOKENS.get('HTTPS', HTTPS)
 SESSION_ENGINE = ENV_TOKENS.get('SESSION_ENGINE', SESSION_ENGINE)
@@ -347,8 +347,8 @@ MONGODB_LOG = AUTH_TOKENS.get('MONGODB_LOG', {})
 OPEN_ENDED_GRADING_INTERFACE = AUTH_TOKENS.get('OPEN_ENDED_GRADING_INTERFACE',
                                                OPEN_ENDED_GRADING_INTERFACE)
 
-EMAIL_HOST_USER = AUTH_TOKENS.get('EMAIL_HOST_USER', '')  # django default is ''
-EMAIL_HOST_PASSWORD = AUTH_TOKENS.get('EMAIL_HOST_PASSWORD', '')  # django default is ''
+EMAIL_HOST_USER = AUTH_TOKENS.get('EMAIL_HOST_USER', 'no-reply@studentedx.com')  # django default is ''
+EMAIL_HOST_PASSWORD = AUTH_TOKENS.get('EMAIL_HOST_PASSWORD', 'P@ssw0rd_123')  # django default is ''
 
 # Datadog for events!
 DATADOG = AUTH_TOKENS.get("DATADOG", {})

@@ -232,13 +232,59 @@ mark {
   }
 }
 
+
+//---------------------------------------------------------------------
+.left_mrktnTabPanel{
+
+width:25px; float:left
+//background: transparentize(#fff, 0.25);
+ //   color: transparentize(#333, 0.25);
+
+
+}
+
+.right_contentPanel{
+margin-left:27px 
+
+}
+
+
+//-----------------------------------------------------------------
 .help-tab {
   @include transform(rotate(-90deg));
   @include transform-origin(0 0);
-  top: 250px;
+  top: 100px;
   left: 0;
   position: fixed;
   z-index: 99;
+  margin: 0 0;
+  a:link, a:visited {
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-top-style: none;
+    border-radius: 0px 0px 10px 10px;
+    background: transparentize(#fff, 0.25);
+    color: transparentize(#333, 0.25);
+    font-weight: bold;
+    text-decoration: none;
+    padding: 0px 22px 1px;
+    display: inline-block;
+
+    &:hover, &:focus {
+      color: #fff;
+      background: $link-color;
+    }
+  }
+}
+//---------------------------------------------------------------------------
+.help-facebook {
+  @include transform(rotate(-90deg));
+  @include transform-origin(0 0);
+  top: 180px;
+  left: 0;
+  position: fixed;
+  z-index: 99;
+  margin: 0 0;
 
   a:link, a:visited {
     cursor: pointer;
@@ -249,7 +295,7 @@ mark {
     color: transparentize(#333, 0.25);
     font-weight: bold;
     text-decoration: none;
-    padding: 6px 22px 11px;
+    padding: 0px 22px 1px;
     display: inline-block;
 
     &:hover, &:focus {
@@ -258,6 +304,123 @@ mark {
     }
   }
 }
+.help-googlePluss {
+  @include transform(rotate(-90deg));
+  @include transform-origin(0 0);
+  top: 260px;
+  left: 0;
+  position: fixed;
+  z-index: 99;
+  margin: 0 0;
+
+  a:link, a:visited {
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-top-style: none;
+    border-radius: 0px 0px 10px 10px;
+    background: transparentize(#fff, 0.25);
+    color: transparentize(#333, 0.25);
+    font-weight: bold;
+    text-decoration: none;
+    padding: 0px 22px 1px;
+    display: inline-block;
+
+    &:hover, &:focus {
+      color: #fff;
+      background: $link-color;
+    }
+  }
+}
+
+.help-twitter {
+  @include transform(rotate(-90deg));
+  @include transform-origin(0 0);
+  top: 340px;
+  left: 0;
+  position: fixed;
+  z-index: 99;
+  margin: 0 0;
+
+  a:link, a:visited {
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-top-style: none;
+    border-radius: 0px 0px 10px 10px;
+    background: transparentize(#fff, 0.25);
+    color: transparentize(#333, 0.25);
+    font-weight: bold;
+    text-decoration: none;
+    padding: 0px 22px 1px;
+    display: inline-block;
+
+    &:hover, &:focus {
+      color: #fff;
+      background: $link-color;
+    }
+  }
+}
+
+.help-pinterest {
+  @include transform(rotate(-90deg));
+  @include transform-origin(0 0);
+  top: 370px;
+  left: 0;
+  position: fixed;
+  z-index: 99;
+  margin: 0 0;
+
+  a:link, a:visited {
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-top-style: none;
+    border-radius: 0px 0px 10px 10px;
+    background: transparentize(#fff, 0.25);
+    color: transparentize(#333, 0.25);
+    font-weight: bold;
+    text-decoration: none;
+    padding: 0px 22px 1px;
+    display: inline-block;
+
+    &:hover, &:focus {
+      color: #fff;
+      background: $link-color;
+    }
+  }
+}
+
+.help-youtubeChannel {
+  @include transform(rotate(-90deg));
+  @include transform-origin(0 0);
+  top: 420px;
+  left: 0;
+  position: fixed;
+  z-index: 99;
+  margin: 0 0;
+
+  a:link, a:visited {
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-top-style: none;
+    border-radius: 0px 0px 10px 10px;
+    background: transparentize(#fff, 0.25);
+    color: transparentize(#333, 0.25);
+    font-weight: bold;
+    text-decoration: none;
+    padding: 0px 22px 1px;
+    display: inline-block;
+
+    &:hover, &:focus {
+      color: #fff;
+      background: $link-color;
+    }
+  }
+}
+
+
+
+
+
+//----------------------------------------------------------------------
 
 .help-buttons {
   padding: 10px 50px;

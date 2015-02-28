@@ -14,8 +14,6 @@
 
 <%namespace name="progress_graph" file="progress_graph.js"/>
 
-<%block name="pagetitle">${_("{course_number} Progress").format(course_number=course.display_number_with_default) | h}</%block>
-<%block name="nav_skip">#course-info-progress</%block>
 
 <%!
     from django.core.urlresolvers import reverse
@@ -36,47 +34,14 @@ from django.utils.http import urlquote_plus
 </script>
 </%block>
 
-<%include file="/dashboard/_dashboard_prompt_midcourse_reverify.html" />
+
 
 
 
 <div class="container">
   <div class="profile-wrapper">
 
-    <div class="course-info" id="course-info-progress" aria-label="${_('Course Progress')}">
-      % if staff_access and studio_url is not None:
-        <div class="wrap-instructor-info">
-          <a class="instructor-info-action studio-view" href="${studio_url}">${_("View Grading in studio")}</a>
-        </div>
-      % endif
-
-      <header>
-        <h1>${_("Course Progress for Student '{username}' ({email})").format(username=student.username, email=student.email)}</h1>
-      </header>
-
-      %if settings.FEATURES.get("SHOW_PROGRESS_SUCCESS_BUTTON"):
-        <%
-          SUCCESS_BUTTON_URL = settings.PROGRESS_SUCCESS_BUTTON_URL.format(
-            course_id=urlquote_plus(unicode(course.id)),
-            student_id=urlquote_plus(student.id)
-          )
-          nonzero_cutoffs = [cutoff for cutoff in course.grade_cutoffs.values() if cutoff > 0]
-          success_cutoff = min(nonzero_cutoffs) if nonzero_cutoffs else None
-        %>
-        %if success_cutoff and grade_summary['percent'] > success_cutoff:
-          <div id="course-success">
-            <a href="${SUCCESS_BUTTON_URL}">
-              ${settings.PROGRESS_SUCCESS_BUTTON_TEXT_OVERRIDE or _("Download your certificate")}
-            </a>
-          </div>
-        %endif
-      %endif
-
-      %if not course.disable_progress_graph:
-        <div id="grade-detail-graph" aria-hidden="true"></div>
-      %endif
-
-      <div class="chapters">
+    <div class="chapters">
         %for chapter in courseware_summary:
         %if not chapter['display_name'] == "hidden":
         <section>
@@ -139,6 +104,6 @@ from django.utils.http import urlquote_plus
         %endfor
       </div> <!--End chapters-->
 
-    </div>
+    
   </div>
 </div>

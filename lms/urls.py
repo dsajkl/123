@@ -75,10 +75,11 @@ urlpatterns = ('',  # nopep8
     # Feedback Form endpoint
     url(r'^submit_feedback$', 'util.views.submit_feedback'),
 
-    url(r'^parentengagement/$', 'parent_eng.views.home'),
+     url(r'^parentengagement/$', 'parent_eng.views.home'),
      url(r'^parentengagement/create/$', 'parent_eng.views.create'),
+    url(r'^parentengagement/sendmail/$', 'parent_eng.views.sendmail'),
 
-
+   url(r'^ppp/$', 'parent_eng.views.processWelcome'),
 )
 
 if settings.FEATURES["ENABLE_MOBILE_REST_API"]:

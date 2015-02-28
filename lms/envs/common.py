@@ -38,15 +38,15 @@ from lms.lib.xblock.mixin import LmsBlockMixin
 
 ################################### FEATURES ###################################
 # The display name of the platform to be used in templates/emails/etc.
-PLATFORM_NAME = "Your Platform Name Here"
+PLATFORM_NAME = "StudentEDX"
 CC_MERCHANT_NAME = PLATFORM_NAME
 
-PLATFORM_FACEBOOK_ACCOUNT = "http://www.facebook.com/YourPlatformFacebookAccount"
-PLATFORM_TWITTER_ACCOUNT = "@YourPlatformTwitterAccount"
-PLATFORM_TWITTER_URL = "https://twitter.com/YourPlatformTwitterAccount"
-PLATFORM_MEETUP_URL = "http://www.meetup.com/YourMeetup"
-PLATFORM_LINKEDIN_URL = "http://www.linkedin.com/company/YourPlatform"
-PLATFORM_GOOGLE_PLUS_URL = "https://plus.google.com/YourGooglePlusAccount/"
+PLATFORM_FACEBOOK_ACCOUNT = "http://www.facebook.com/studentedx"
+PLATFORM_TWITTER_ACCOUNT = "@studentedx"
+PLATFORM_TWITTER_URL = "https://twitter.com/studenedx"
+PLATFORM_MEETUP_URL = "http://www.meetup.com/YourMeetup"#<---------------------------
+PLATFORM_LINKEDIN_URL = "http://www.linkedin.com/company/YourPlatform" #<---------------------------
+PLATFORM_GOOGLE_PLUS_URL = "https://plus.google.com/u/0/b/105623299540915099930/105623299540915099930/about"
 
 
 COURSEWARE_ENABLED = True
@@ -160,7 +160,7 @@ FEATURES = {
     'SEGMENT_IO_LMS': False,
 
     # Provide a UI to allow users to submit feedback from the LMS (left-hand help modal)
-    'ENABLE_FEEDBACK_SUBMISSION': False,
+    'ENABLE_FEEDBACK_SUBMISSION': True,
 
     # Turn on a page that lets staff enter Python code to be run in the
     # sandbox, for testing whether it's enabled properly.
@@ -253,16 +253,16 @@ FEATURES = {
 
     # Turn on third-party auth. Disabled for now because full implementations are not yet available. Remember to syncdb
     # if you enable this; we don't create tables by default.
-    'ENABLE_THIRD_PARTY_AUTH': False,
+    'ENABLE_THIRD_PARTY_AUTH': True,
 
     # Toggle to enable alternate urls for marketing links
     'ENABLE_MKTG_SITE': False,
 
     # Prevent concurrent logins per user
-    'PREVENT_CONCURRENT_LOGINS': False,
+    'PREVENT_CONCURRENT_LOGINS': True,
 
     # Turn off Advanced Security by default
-    'ADVANCED_SECURITY': False,
+    'ADVANCED_SECURITY': True,
 
     # Show a "Download your certificate" on the Progress page if the lowest
     # nonzero grade cutoff is met

@@ -1,3 +1,4 @@
+
 # Create your views here.
 # Create your views here.
 #from django.http import httpResponse
@@ -6,9 +7,82 @@
 	#	return HttpResponse("Hello World!!!!!!!")
 
 '''
+
+from datetime import datetime
+from collections import defaultdict
+from django.utils import translation
+from django.utils.translation import ugettext as _
+
+from django.conf import settings
+from django.core.context_processors import csrf
+from django.core.exceptions import PermissionDenied
+from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User, AnonymousUser
+from django.contrib.auth.decorators import login_required
+from django.utils.timezone import UTC
+from django.views.decorators.http import require_GET
+from django.http import Http404, HttpResponse
+from django.shortcuts import redirect
+from edxmako.shortcuts import render_to_response, render_to_string, marketing_link
+from django_future.csrf import ensure_csrf_cookie
+from django.views.decorators.cache import cache_control
+from django.db import transaction
+from functools import wraps
+from markupsafe import escape
+
+from courseware import grades
+from courseware.access import has_access, _adjust_start_date_for_beta_testers
+from courseware.courses import get_courses, get_course, get_studio_url, get_course_with_access, sort_by_announcement
+from courseware.masquerade import setup_masquerade
+from courseware.model_data import FieldDataCache
+from courseware.models import StudentModule, StudentModuleHistory
+from course_modes.models import CourseMode
+
+from open_ended_grading import open_ended_notifications
+from student.models import UserTestGroup, CourseEnrollment
+from student.views import single_course_reverification_info, is_course_blocked
+from util.cache import cache, cache_if_anonymous
+from xblock.fragment import Fragment
+from xmodule.modulestore.django import modulestore
+from xmodule.modulestore.exceptions import ItemNotFoundError, NoPathToItem
+from xmodule.modulestore.search import path_to_location
+from xmodule.tabs import CourseTabList, StaffGradingTab, PeerGradingTab, OpenEndedGradingTab
+from xmodule.x_module import STUDENT_VIEW
+import shoppingcart
+from shoppingcart.models import CourseRegistrationCode
+from opaque_keys import InvalidKeyError
+
+from microsite_configuration import microsite
+from opaque_keys.edx.locations import SlashSeparatedCourseKey
+
+from instructor.enrollment import uses_shib
+
+from util.db import commit_on_success_with_read_committed
+
+import survey.utils
+import survey.views
+
+from util.views import ensure_valid_course_key
+
+'''
+
+
+
+
+
+
+
+from collections import defaultdict
+
+
+
 from courseware import grades
 from xmodule.modulestore.django import modulestore
 from courseware.courses import get_courses, get_course, get_studio_url, get_course_with_access, sort_by_announcement
+
+from microsite_configuration import microsite
+from opaque_keys.edx.locations import SlashSeparatedCourseKey
+
 
 import survey.utils
 import survey.views
@@ -16,7 +90,7 @@ import survey.views
 from courseware.access import has_access
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
-'''
+
 
 
 
@@ -48,7 +122,12 @@ from django.core.mail import send_mail, BadHeaderError
 from django.contrib.auth.models import User, AnonymousUser
 from django.core.exceptions import ObjectDoesNotExist
 
+
+from student.models import CourseEnrollment
 #from screamshot.utils import render_template
+
+
+
 
 #def home(request):return render_to_response("parent/home.html", {'hello':"hi this is block test"})
 @login_required
@@ -66,6 +145,46 @@ def home(request):#render_template('dashboard.html', {'context': 'variables'}, o
 	return render_to_response('p_alreadyRegistered.html',{"name":st_id.parentname, "email":st_id.parentemail, "phone":st_id.parentphone})
 
 
+
+#templates/parent/form1.html
+@login_required
+@ensure_csrf_cookie
+def processWelcome(request):
+     
+        k = request.user.id
+       	st = CourseEnrollment.objects.filter(user_id=k , is_active=1)
+#	st = stt.objects.filter(is_active=1)
+	return render_to_response('p_welcomePage.html', {"courses":st} )
+
+
+#        return  HttpResponse('Some input data are missing or invalid') #
+   
+
+#            return render_to_response('p_alreadyRegistered.html',{"name":st_id.parentname, "email":st_id.parentemail})
+	
+#	'''
+#	 except ObjectDoesNotExist:
+#                if 'name' in request.GET:
+#                        if 'email' in request.GET and 'phone' in request.GET:
+#                                p_name = request.GET['name']
+#                                p_email = request.GET['email']
+#                                p_phone = request.GET['phone']
+#                                p_studentid = request.user.id
+#                                p_studentemail =request.user.email
+#
+
+#                                new_p = P_Data(studentid = p_studentid,studentemail = p_studentemail, parentname = p_name, parentemail = p_emai$
+#                                new_p.save()
+#                                return HttpResponse('Data saved sucessfully, thankyou')
+#                return  HttpResponse('Some input data are missing or invalid') #
+
+
+
+#	courses_list = CourseEnrollment.objects.get(user_id=k)
+#	courses_c = {"courses":courses_list.course_id}
+#	return render_to_response('p_welcomePage.html', {"courses":courses_list}, context )
+
+	#return  HttpResponse('Some input data are missing or invalid')
 
 #templates/parent/form1.html
 @login_required
@@ -108,23 +227,53 @@ def create(request):
 
 
 
-@login_required
-@ensure_csrf_cookie
+#@login_required
+#@ensure_csrf_cookie
+#@ensure_valid_course_key
 def sendmail(request):
     subject = 'Hello from my app'	# request.POST.get('subject', '')
-    message = 'This is the message'   #request.POST.get('message', '')
+#    message = 'This is the message!!!!!!!!!!!!!!!!'   #request.POST.get('message', '')
     from_email = 'aiemailelslam@example.com'   # request.POST.get('from_email', '')
+    student = User.objects.get(id=int(3))
+    course_key = SlashSeparatedCourseKey.from_deprecated_string('edX/DemoX/Demo_Course')
+    course = get_course_with_access(request.user, 'load', course_key, depth=None, check_if_enrolled=True)
+    courseware_summary = grades.progress_summary(student, request, course)
+    studio_url = get_studio_url(course, 'settings/grading')
+    staff_access = has_access(request.user, 'staff', course)
+    grade_summary = grades.grade(student, request, course)
+    message = grade_summary
+    
+    context = {
+        'course': course,
+        'courseware_summary': courseware_summary,
+        'studio_url': studio_url,
+        'grade_summary': grade_summary,
+        'staff_access': staff_access,
+        'student': student,
+#        'reverifications': fetch_reverify_banner_info(request, course_key)
+    }    
+    response = render_to_response('p_sProgress.html', context)
+    return response
+
+def fetch_reverify_banner_info(request, course_key):
+    reverifications = defaultdict(list)
+    user = request.user
+    return reverifications
+
+
+
+'''
     if subject and message and from_email:
         try:
-            send_mail(subject, message, from_email, ['khaled.fahmy.ee@gmail.com'], fail_silently=False)
+            send_mail(subject, message, from_email, ['khaled_fahmy@instaforexegypt.com'], fail_silently=False)
         except BadHeaderError:
             return HttpResponse('Invalid header found.')
-        return HttpResponse('Emailsent...thanks')
+        return HttpResponse('Email sent...thanks')
     else:
         # In reality we'd use a form class
         # to get proper validation errors.
         return HttpResponse('Make sure all fields are entered and valid.')
-
+'''
 '''
 @login_required
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
@@ -197,3 +346,7 @@ def _progress(request, course_key, student_id):
 
     return response
 '''
+
+
+
+

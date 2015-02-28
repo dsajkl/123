@@ -129,18 +129,27 @@
     <%include file="mathjax_accessible.html" />
 
   % if not suppress_toplevel_navigation:
+<div class="right_contentPanel">
+ 
     <%include file="${header_file}" />
-  %endif
+</div> 
+ %endif
 
+ <!--   <%include file="mrktn_tab.html"/>    <!-- ==========================-->
+
+
+ <div class="right_contentPanel">
     <div class="content-wrapper" id="content">
       ${self.body()}
       <%block name="bodyextra"/>
     </div>
+</div>
 
+<div class="right_contentPanel">
   % if not suppress_toplevel_navigation:
     <%include file="${footer_file}" />
   % endif
-
+</div>
   </div>
 
   <script>window.baseUrl = "${settings.STATIC_URL}";</script>
